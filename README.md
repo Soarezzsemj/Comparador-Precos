@@ -1,17 +1,51 @@
-# comparador_gasolina_alcool
+# 🚗 Comparador Gasolina vs Álcool
 
-Comparador de qual vale mais a pena, gasolina ou alcool
+Aplicativo desenvolvido com Flutter para ajudar motoristas a decidirem qual combustível vale mais a pena abastecer: **gasolina ou álcool (etanol)**.
 
-## Getting Started
+---
 
-This project is a starting point for a Flutter application.
+## 📊 Como funciona
 
-A few resources to get you started if this is your first Flutter project:
+O cálculo é baseado em uma regra prática bastante utilizada no Brasil:
 
-- [Learn Flutter](https://docs.flutter.dev/get-started/learn-flutter)
-- [Write your first Flutter app](https://docs.flutter.dev/get-started/codelab)
-- [Flutter learning resources](https://docs.flutter.dev/reference/learning-resources)
+> Divide-se o preço do álcool pelo preço da gasolina.
 
-For help getting started with Flutter development, view the
-[online documentation](https://docs.flutter.dev/), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
+- Se o resultado for **maior que 0,70** → **Gasolina compensa mais**
+- Se o resultado for **menor que 0,70** → **Álcool compensa mais**
+
+---
+
+## 🧮 Fórmula utilizada
+resultado = preço_do_álcool / preço_da_gasolina
+
+
+---
+
+## 🎯 Objetivo
+
+Facilitar a decisão do motorista no momento do abastecimento, evitando cálculos manuais e tornando o processo rápido e intuitivo.
+
+---
+
+## 🛠️ Tecnologias utilizadas
+
+- Flutter
+- Dart
+
+---
+
+## 📱 Funcionalidades (inicial)
+
+- Inserção do preço da gasolina
+- Inserção do preço do álcool
+- Cálculo automático da melhor opção
+- Exibição do resultado de forma clara
+
+---
+
+## 🚀 Melhorias futuras
+
+- Histórico de preços
+- Interface mais elaborada
+- Integração com APIs de preços de combustíveis
+- Suporte a múltiplas cidades
