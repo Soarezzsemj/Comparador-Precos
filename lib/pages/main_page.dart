@@ -1,8 +1,8 @@
-import 'package:comparador_gasolina_alcool/pages/Pagina1Page.dart';
-import 'package:comparador_gasolina_alcool/pages/Pagina2Page.dart';
-import 'package:comparador_gasolina_alcool/pages/dados_cadastrais.dart';
 import 'package:flutter/material.dart';
 
+import 'Pagina1Page.dart';
+import 'Pagina2Page.dart';
+import 'dados_cadastrais.dart';
 import 'main_page2.dart';
 
 class MainPage extends StatefulWidget {

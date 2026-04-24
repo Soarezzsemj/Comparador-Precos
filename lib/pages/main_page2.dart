@@ -11,99 +11,124 @@ class _MainPageeeState extends State<MainPageee> {
   double precoGasolina = 0.0;
   double precoAlcool = 0.0;
   double resultado = 0.0;
+
   @override
   Widget build(BuildContext context) {
-    // O Scaffold deve ser o widget raiz aqui, não dentro de um Column
     return Scaffold(
+      // 1. Adicionei uma cor de fundo bem suave para contrastar com os campos
+      backgroundColor: Colors.grey[100],
       appBar: AppBar(
-        title: const Text("Álcool X Gasolina",style: TextStyle(color: Colors.white), ),
-        backgroundColor: Colors.blue,
+        title: const Text(
+          "Álcool X Gasolina",
+          style: TextStyle(color: Colors.white, fontWeight: FontWeight.bold),
+        ),
+        backgroundColor: Colors.blueAccent,
+        centerTitle: true, // Centraliza o título no topo
+        elevation: 0,
       ),
       body: SafeArea(
-        child: Center(
-          // O Column aqui dentro permite ter vários elementos (TextField e Container)
+        // 2. SingleChildScrollView evita aquele erro de "tela cortada" quando o teclado sobe
+        child: SingleChildScrollView(
+          padding: const EdgeInsets.all(32.0), // Dá um respiro nas laterais
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
+            // 3. Stretch faz os botões e campos ocuparem a largura disponível respeitando o padding
+            crossAxisAlignment: CrossAxisAlignment.stretch,
             children: [
-              Container(
-                child: SizedBox(
-                  width: 160,
-                  child: TextField(
-                    onChanged: (valueGas) {
-                      setState(() {
-                        precoGasolina = double.tryParse(valueGas) ?? 0.0;
-                      });
-                    },
-                    decoration: const InputDecoration(
-                      enabledBorder: UnderlineInputBorder(
-                        borderSide: BorderSide(color: Colors.blue),
-                      ),
-                      hintText: "Gasolina",
-                      hintStyle: TextStyle(color: Colors.black),
-                      prefixIcon: Icon(Icons.price_change, color: Colors.black),
-                    ),
+              // 4. Um ícone no topo para preencher o espaço e deixar mais bonito
+              const Icon(
+                  Icons.local_gas_station,
+                  size: 120,
+                  color: Colors.blueAccent
+              ),
+              const SizedBox(height: 40),
+
+              TextField(
+                // 5. Força o teclado do celular a abrir já nos números
+                keyboardType: TextInputType.number,
+                onChanged: (valueGas) {
+                  setState(() {
+                    precoGasolina = double.tryParse(valueGas) ?? 0.0;
+                  });
+                },
+                decoration: InputDecoration(
+                  labelText: "Preço da Gasolina",
+                  prefixIcon: const Icon(Icons.local_gas_station, color: Colors.blueAccent),
+                  // 6. OutlineInputBorder cria aquela borda arredondada moderna ao redor de todo o campo
+                  border: OutlineInputBorder(
+                    borderRadius: BorderRadius.circular(15),
                   ),
+                  filled: true,
+                  fillColor: Colors.white,
                 ),
               ),
-              const SizedBox(height: 15),
-              Container(
-                child: SizedBox(
-                  width: 160,
-                  child: TextField(
-                    onChanged: (valueEthanol) {
-                      setState(() {
-                        precoAlcool = double.tryParse(valueEthanol) ?? 0.0;
-                      });
-                    },
-                    decoration: const InputDecoration(
-                      enabledBorder: UnderlineInputBorder(
-                        borderSide: BorderSide(color: Colors.blue),
-                      ),
-                      hintText: "Álcool",
-                      hintStyle: TextStyle(color: Colors.black),
-                      prefixIcon: Icon(Icons.price_change, color: Colors.black),
-                    ),
+              const SizedBox(height: 20),
+
+              TextField(
+                keyboardType: TextInputType.number,
+                onChanged: (valueEthanol) {
+                  setState(() {
+                    precoAlcool = double.tryParse(valueEthanol) ?? 0.0;
+                  });
+                },
+                decoration: InputDecoration(
+                  labelText: "Preço do Álcool",
+                  prefixIcon: const Icon(Icons.eco, color: Colors.green),
+                  border: OutlineInputBorder(
+                    borderRadius: BorderRadius.circular(15),
                   ),
+                  filled: true,
+                  fillColor: Colors.white,
                 ),
               ),
-              const SizedBox(height: 15),
+              const SizedBox(height: 30),
+
               SizedBox(
-                height: 40,
-                width: 120,
-                child: TextButton(
+                height: 55, // Aumentei um pouco a altura do botão para ficar mais fácil de clicar
+                child: ElevatedButton( // 7. Troquei TextButton por ElevatedButton para dar destaque
                   onPressed: () {
                     setState(() {
-                      if(precoGasolina > 0){
+                      // A LÓGICA CONTINUA EXATAMENTE IGUAL
+                      if (precoGasolina > 0) {
                         resultado = precoAlcool / precoGasolina;
                       } else {
                         resultado = 0.0;
                       }
-
                       debugPrint(resultado.toString());
                     });
                   },
-                  style: ButtonStyle(
-                    backgroundColor: WidgetStateProperty.all(Colors.green),
-                    shape: WidgetStateProperty.all(
-                      RoundedRectangleBorder(
-                        borderRadius: BorderRadiusGeometry.circular(5),
-                      ),
+                  style: ElevatedButton.styleFrom(
+                    backgroundColor: Colors.blueAccent,
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(15),
                     ),
                   ),
-                  child: Text(
+                  child: const Text(
                     "Calcular",
                     style: TextStyle(
                       color: Colors.white,
-                      fontSize: 25,
-                      fontWeight: FontWeight.w500,
+                      fontSize: 22,
+                      fontWeight: FontWeight.bold,
                     ),
                   ),
                 ),
               ),
-              const SizedBox(height:20),
+              const SizedBox(height: 40),
+
               Text(
-                resultado == 0.0 ? "Digite os valores para calcular" : ( resultado < 0.7 ? "Abasteça com Álcool": "Abasteça com Gasolina"),
-                style: const TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
+                // O TERNÁRIO CONTINUA O MESMO
+                resultado == 0.0
+                    ? "Digite os valores para calcular"
+                    : (resultado < 0.7 ? "Abasteça com Álcool" : "Abasteça com Gasolina"),
+                textAlign: TextAlign.center, // Centraliza o texto do resultado
+                style: TextStyle(
+                  fontSize: 24,
+                  fontWeight: FontWeight.bold,
+                  // Um detalhe extra: a cor do texto muda dependendo do resultado!
+                  color: resultado == 0.0
+                      ? Colors.black87
+                      : (resultado < 0.7 ? Colors.green : Colors.blueAccent),
+                ),
               ),
             ],
           ),
