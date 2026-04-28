@@ -1,10 +1,5 @@
 import 'package:flutter/material.dart';
 
-import 'Pagina1Page.dart';
-import 'Pagina2Page.dart';
-import 'dados_cadastrais.dart';
-import 'main_page2.dart';
-
 class MainPage extends StatefulWidget {
   const MainPage({super.key});
 
@@ -13,71 +8,63 @@ class MainPage extends StatefulWidget {
 }
 
 class _MainPageState extends State<MainPage> {
+  // 1. Criando o controlador do PageView
+  final PageController _pageController = PageController();
+
+  // É uma boa prática limpar o controlador da memória quando a tela for fechada
+  @override
+  void dispose() {
+    _pageController.dispose();
+    super.dispose();
+  }
+
+  // Lógica do botão
+  void _irParaProximaPagina() {
+    // O hasClients garante que o PageView já foi construído na tela antes de tentar animar
+    if (_pageController.hasClients) {
+      _pageController.nextPage(
+        duration: const Duration(milliseconds: 100), // Tempo da animação
+        curve: Curves.easeInOut, // Efeito suave de transição
+      );
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
-    return SafeArea(
-      child: Scaffold(
-        appBar: AppBar(title: Text("app", style: TextStyle(color: Colors.white),), backgroundColor: Colors.blue,),
-        drawer: Drawer(child:
-          Padding(
-            padding: EdgeInsets.symmetric(vertical: 30, horizontal: 30),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                SizedBox(
-                  height: 50 ,
-                ),
-                InkWell(
-                  onTap: () {
-                    Navigator.pop(context);
-                    Navigator.push(context, MaterialPageRoute(builder: (context) => DadosCadastraisPage(
-                      texto: "Meus dados",
-                      dados: ["nome", "idade"],
-                    )));
-
-                  },
-                    child: Container(
-                        padding:  EdgeInsets.symmetric(vertical: 5),
-                        width: double.infinity,
-                        child: Text("dados cadastrais", style: TextStyle(fontSize: 20),)),
-                ),
-                Divider(),
-                SizedBox(
-                  height: 24 ,
-                ),
-                InkWell(
-                  onTap: () {
-
-                    Navigator.pop(context);
-                    Navigator.push(context, MaterialPageRoute(builder: (context) => MainPageee(
-                    )));
-                  },
-                  child: Container(
-                      padding:  EdgeInsets.symmetric(vertical: 5),
-                      width: double.infinity,
-                      child: Text("Calculo Gasolina", style: TextStyle(fontSize: 20),)),
-                ),
-                Divider(),
-                SizedBox(
-                  height: 24 ,
-                ),
-                InkWell(
-                  onTap: () {},
-                  child: Container(
-                      padding:  EdgeInsets.symmetric(vertical: 5),
-                      width: double.infinity,
-                      child: Text("dados3", style: TextStyle(fontSize: 20),)),
-                ),
-                Divider(),
-              ],
+    return Scaffold(
+      body: PageView(
+        // 2. Vinculando o controlador ao PageView
+        controller: _pageController,
+        scrollDirection: Axis.horizontal,
+        children: [
+          Container(
+            color: Colors.blue[100],
+            child: const Center(
+              child: Text('Etapa 1: Dados Pessoais', style: TextStyle(fontSize: 24)),
             ),
-          ),),
-        body: PageView(
-          scrollDirection: Axis.vertical,
-          children: [
-          Pagina1page(),
-          Pagina2page(),
-        ],),
+          ),
+          Container(
+            color: Colors.green[100],
+            child: const Center(
+              child: Text('Etapa 2: Endereço', style: TextStyle(fontSize: 24)),
+            ),
+          ),
+          Container(
+            color: Colors.orange[100],
+            child: const Center(
+              child: Text('Etapa 3: Confirmação', style: TextStyle(fontSize: 24)),
+            ),
+          ),
+        ],
+      ),
+      // 3. Adicionando o botão flutuante com a seta
+      floatingActionButton: FloatingActionButton(
+        onPressed: _irParaProximaPagina,
+        backgroundColor: Colors.blue, // Cor do botão
+        child: const Icon(
+          Icons.arrow_forward, // Ícone de seta
+          color: Colors.white,
+        ),
       ),
     );
   }
